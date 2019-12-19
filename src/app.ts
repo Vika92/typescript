@@ -1,22 +1,21 @@
 // Task 02
-// import {
-//   getAllBooks,
-//   getBookTitlesByCategory,
-//   logFirstAvailable,
-//   logBookTitles,
-//   getBookAuthorByIndex,
-//   calcTotalPages
-// } from './functions';
-// import {Category} from "./enums";
-//
-//
+import {
+  getAllBooks,
+  getBookTitlesByCategory,
+  logFirstAvailable,
+  logBookTitles,
+  getBookAuthorByIndex,
+  calcTotalPages
+} from './functions';
+import {Category} from "./enums";
+
 // Task 02.01
-// const books = getAllBooks();
-// logFirstAvailable(books);
-// const bookTitles = getBookTitlesByCategory(Category.JavaScript);
-// logBookTitles(bookTitles);
-// console.log(getBookAuthorByIndex(0));
-// console.log(calcTotalPages());
+const books = getAllBooks();
+logFirstAvailable(books);
+const bookTitles = getBookTitlesByCategory(Category.JavaScript);
+logBookTitles(bookTitles);
+console.log(getBookAuthorByIndex(0));
+console.log(calcTotalPages());
 
 // Task 03
 // import {
@@ -136,10 +135,10 @@
 // Task 06
 // see NamespaceDemo
 // Task 06.05
-import('./classes').then(data => {
-  const render = new data.Render();
-  console.log(render);
-});
+// import('./classes').then(data => {
+//   const render = new data.Render();
+//   console.log(render);
+// });
 
 // Task 07
 // import {Category} from "./enums";
@@ -209,25 +208,29 @@ import('./classes').then(data => {
 // const params: Parameters<CreateCustomerFunctionType> = ['Anna'];
 // createCustomer(...params);
 
-//task 08.02
+// Task 08
+import {UniversityLibrarian} from "./classes";
+import Encyclopedia from "./classes/encyclopedia";
+
+// Task 08.01
 // const flibrarian = new UniversityLibrarian();
+// Task 08.02
 // flibrarian.name = 'Anna';
 // flibrarian['printLibrarian']();
-
-//task 08.03
-// const flibrarian = new UniversityLibrarian();
+// Task 08.03
 // flibrarian.assistFaculty = null;
 // flibrarian.teachCommunity = null;
-
-//task 08.04
-
-//Task 08.06
-// import {UniversityLibrarian} from "./classes";
-//
-// const fLibrarian = new UniversityLibrarian();
-// fLibrarian.name = 'Anna';
-// console.log(fLibrarian.name);
-
+// Task 08.04
+// const encyclopedia = new Encyclopedia('title', 201, 1);
+// encyclopedia.printItem();
+// Task 08.05
+// flibrarian.name = 'Anna';
+// flibrarian.assistCustomer('Vasya');
+// Task 08.06
+// flibrarian.name = 'Olga';
+// console.log(flibrarian.name);
+// Task 08.07
+// encyclopedia.copies = 10;
 
 // Task 09
 // import { Category } from "./enums";

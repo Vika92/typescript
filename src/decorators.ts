@@ -1,7 +1,10 @@
+import {Runtime} from "inspector";
+
 export function sealed(param: string) {
     return function(target: Function): void {
       console.log(`Sealing the constructor ${param}`);
       console.log(target);
+      Object.seal(target);
       Object.seal(target.prototype);
     };
 }
@@ -10,7 +13,6 @@ export function logger<TFunction extends Function>(target: TFunction): TFunction
     const newConstructor: Function = function() {
         console.log('Creating new instance');
         console.log(target);
-
         this.age = 30;
     };
     newConstructor.prototype = Object.create(target.prototype);
@@ -42,7 +44,33 @@ export function timeout(ms: number = 0) {
     }
 }
 
-export function logParameter(target: any, methodName: any, index: number) {}
+export function logParameter(target: any, methodName: any, index: number) {
+  const key = `${methodName}_decor_params_indexes`;
+
+  if(Array.isArray(target.key)) {
+    target[key].push(index);
+  } else {
+    target[key] = [index];
+  }
+}
+
+export function logMethod(target: any, methodName: string, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value;
+  descriptor.value = function(...args: any[]) {
+    const key = `${methodName}_decor_params_indexes`;
+    const indexes = target[key];
+    if(Array.isArray(indexes)) {
+      args.forEach((arg, index) => {
+        if (indexes.indexOf(index) != -1) {
+          console.log(`Method: ${methodName}, ParamIndex: ${index}, ParamValue: ${arg}`);
+        }
+      });
+    }
+
+    return originalMethod.apply(this, args);
+  };
+  return descriptor;
+}
 
 function makeProperty<T>(
   prototype: any,
@@ -80,6 +108,22 @@ function makeProperty<T>(
 
 export function format(pref: string = 'Mr./Mrs.') {
     return function(target: any, propertyName: string) {
-        makeProperty(target, propertyName, value => `${pref} ${value}`, value => value);
+        makeProperty(
+          target,
+          propertyName,
+          value => `${pref} ${value}`,
+          value => value
+        );
     }
+}
+
+export function positiveInteger(target: any, propertyName: string, descriptor: PropertyDescriptor) {
+  const originalSet = descriptor.set;
+  descriptor.set = function(value: number) {
+    if (value < 1 || !Number.isInteger) {
+      throw new Error('Invalid');
+    }
+    originalSet.call(this, value);
+  };
+  return descriptor;
 }
